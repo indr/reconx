@@ -1,29 +1,20 @@
 {% extends 'master' %}
 
 {% block content %}
-<h1>Forgot Password</h1>
+  <h1>Forgot Password</h1>
 
+  {% include 'flash_messages' %}
 
-{% if old('success') %}
-<div class="alert alert-success"> {{ old('success') }}</div>
-{% endif %}
+  {{ form.open({action: 'AuthController.forgot'}) }}
+  {{ csrfField }}
 
-{% if old('errors') %}
-{% for error in old('errors') %}
-<div class="alert alert-error"> {{ error.message }}</div>
-{% endfor %}
-{% endif %}
+  <fieldset class="form-group">
+    {{ form.label('email', 'EMAIL:') }}
+    {{ form.text('email', null, { class: 'form-control' }) }}
+  </fieldset>
 
-{{ form.open({action: 'AuthController.forgot'}) }}
-{{ csrfField }}
-
-<fieldset class="form-group">
-  {{ form.label('email', 'EMAIL:') }}
-  {{ form.text('email', null, { class: 'form-control' }) }}
-</fieldset>
-
-<div class="form-actions">
-  {{ form.submit('Submit', 'submit', { class: 'btn btn-primary' }) }}
-</div>
-{{ form.close() }}
+  <div class="form-actions">
+    {{ form.submit('Submit', 'submit', { class: 'btn btn-primary' }) }}
+  </div>
+  {{ form.close() }}
 {% endblock %}

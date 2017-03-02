@@ -1,36 +1,35 @@
 {% extends 'master' %}
 
 {% block content %}
-<h1>Edit Account</h1>
+  <h1>Edit Account</h1>
 
-<form class="form" method="post">
-  {{ csrfField }}
-  <fieldset class="form-group">
-    <Label for="username">USERNAME:</Label>
-    <input id="username" type="text" placeholder="" class="form-control">
-  </fieldset>
+  <form class="form" method="post">
+    {{ csrfField }}
+    <fieldset class="form-group">
+      <Label for="username">USERNAME:</Label>
+      <input id="username" type="text" placeholder="" class="form-control">
+    </fieldset>
 
-  <fieldset class="form-group">
-    <Label for="email">EMAIL:</Label>
-    <input id="email" type="text" placeholder="" class="form-control" disabled="disabled">
-  </fieldset>
+    <fieldset class="form-group">
+      <Label for="email">EMAIL:</Label>
+      <input id="email" type="text" placeholder="" class="form-control" disabled="disabled">
+    </fieldset>
 
 
-  <fieldset class="form-group">
-    <Label for="password1">PASSWORD:</Label>
-    <input id="password1" type="password" placeholder="" class="form-control">
-  </fieldset>
+    <fieldset class="form-group">
+      <Label for="password1">PASSWORD:</Label>
+      <input id="password1" type="password" placeholder="" class="form-control">
+    </fieldset>
 
-  <fieldset class="form-group">
-    <Label for="password2">REPEAT:</Label>
-    <input id="password2" type="password" placeholder="" class="form-control">
-  </fieldset>
+    <fieldset class="form-group">
+      <Label for="password2">REPEAT:</Label>
+      <input id="password2" type="password" placeholder="" class="form-control">
+    </fieldset>
 
-  <div class="form-actions">
-    <button type="submit" class="btn btn-primary btn-block">Submit</button>
-  </div>
-</form>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary btn-block">Submit</button>
+    </div>
+  </form>
 
-<p><a href="/account/delete">Delete account</a></p>
-
+  <p><a href="/account/delete">Delete account</a></p>
 {% endblock %}

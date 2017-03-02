@@ -1,29 +1,25 @@
 {% extends 'master' %}
 
 {% block content %}
-<h1>Signup</h1>
+  <h1>Signup</h1>
 
-{% if old('errors') %}
-{% for error in old('errors') %}
-<div class="alert alert-error"> {{ error.message }}</div>
-{% endfor %}
-{% endif %}
+  {% include 'flash_messages' %}
 
-{{ form.open({action: 'AuthController.signup'}) }}
-{{ csrfField }}
+  {{ form.open({action: 'AuthController.signup'}) }}
+  {{ csrfField }}
 
-<fieldset class="form-group">
-  {{ form.label('username', 'USERNAME:') }}
-  {{ form.text('username', null, { class: 'form-control'}) }}
-</fieldset>
+  <fieldset class="form-group">
+    {{ form.label('username', 'USERNAME:') }}
+    {{ form.text('username', null, { class: 'form-control'}) }}
+  </fieldset>
 
-<fieldset class="form-group">
-  {{ form.label('email', 'EMAIL:') }}
-  {{ form.text('email', null, { class: 'form-control'}) }}
-</fieldset>
+  <fieldset class="form-group">
+    {{ form.label('email', 'EMAIL:') }}
+    {{ form.text('email', null, { class: 'form-control'}) }}
+  </fieldset>
 
-<div class="form-actions">
-  {{ form.submit('Submit', 'submit', { class: 'btn btn-primary' }) }}
-</div>
-{{ form.close() }}
+  <div class="form-actions">
+    {{ form.submit('Submit', 'submit', { class: 'btn btn-primary' }) }}
+  </div>
+  {{ form.close() }}
 {% endblock %}

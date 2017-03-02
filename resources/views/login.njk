@@ -1,35 +1,27 @@
 {% extends 'master' %}
 
 {% block content %}
-<h1>Login</h1>
+  <h1>Login</h1>
 
-{% if old('success') %}
-<div class="alert alert-success"> {{ old('success') }}</div>
-{% endif %}
+  {% include 'flash_messages' %}
 
-{% if old('errors') %}
-{% for error in old('errors') %}
-<div class="alert alert-error"> {{ error.message }}</div>
-{% endfor %}
-{% endif %}
+  {{ form.open({action: 'AuthController.login'}) }}
+  {{ csrfField }}
 
-{{ form.open({action: 'AuthController.login'}) }}
-{{ csrfField }}
+  <fieldset class="form-group">
+    {{ form.label('identifier', 'IDENTIFIER:') }}
+    {{ form.text('identifier', null, { class: 'form-control' }) }}
+    <div class="help-block">Username or email address</div>
+  </fieldset>
 
-<fieldset class="form-group">
-  {{ form.label('identifier', 'IDENTIFIER:') }}
-  {{ form.text('identifier', null, { class: 'form-control' }) }}
-  <div class="help-block">Username or email address</div>
-</fieldset>
+  <fieldset class="form-group">
+    {{ form.label('password', 'PASSWORD:') }}
+    {{ form.password('password', null, { class: 'form-control' }) }}
+    <div class="help-block"><a href="/forgot">Forgot password?</a></div>
+  </fieldset>
 
-<fieldset class="form-group">
-  {{ form.label('password', 'PASSWORD:') }}
-  {{ form.password('password', null, { class: 'form-control' }) }}
-  <div class="help-block"><a href="/forgot">Forgot password?</a></div>
-</fieldset>
-
-<div class="form-actions">
-  {{ form.submit('Submit', 'submit', { class: 'btn btn-primary' }) }}
-</div>
-{{ form.close() }}
+  <div class="form-actions">
+    {{ form.submit('Submit', 'submit', { class: 'btn btn-primary' }) }}
+  </div>
+  {{ form.close() }}
 {% endblock %}

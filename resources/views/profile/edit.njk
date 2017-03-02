@@ -1,20 +1,19 @@
 {% extends 'master' %}
 
 {% block content %}
-<h1>Edit Profile</h1>
+  <h1>Edit Profile</h1>
 
-<form class="form" method="post" style="width:auto">
-  {{ csrfField }}
-  <fieldset class="form-group">
-    <textarea rows="20" class="form-control" style="width:100%"></textarea>
-    <div class="help-block"><a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown
-      formatting help</a></div>
-  </fieldset>
+  <form class="form" method="post" style="width:auto">
+    {{ csrfField }}
+    <fieldset class="form-group">
+      <textarea rows="20" class="form-control" style="width:100%"></textarea>
+      <div class="help-block"><a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown
+          formatting help</a></div>
+    </fieldset>
 
-  <div class="form-actions">
-    <button type="submit" class="btn btn-primary btn-block">Submit</button>
-  </div>
-</form>
-
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary btn-block">Submit</button>
+    </div>
+  </form>
 {% endblock %}
 

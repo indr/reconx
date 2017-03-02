@@ -1,39 +1,39 @@
 {% extends 'master' %}
 
 {% block content %}
-<h1>Zero Hedge <a href="/profile">/zerohedge</a></h1>
-<p>
-  <a href="/profile/followers">43 followers</a> <a href="/profile/following">123 following</a>
-  <button type="button" class="btn btn-default btn-ghost btn-follow">Follow</button>
-</p>
+  <h1>Zero Hedge <a href="/profile">/zerohedge</a></h1>
+  <p>
+    <a href="/profile/followers">43 followers</a> <a href="/profile/following">123 following</a>
+    <button type="button" class="btn btn-default btn-ghost btn-follow">Follow</button>
+  </p>
 
-<script type="text/javascript">
-  var btn = document.querySelector('button.btn-follow');
-  if (btn) {
-    btn.addEventListener('click', function (e) {
-      if (btn.innerHTML == 'Following') {
-        btn.innerHTML = 'Follow';
-      } else {
-        btn.innerHTML = 'Following';
-      }
-    });
-  }
-</script>
+  <script type="text/javascript">
+    var btn = document.querySelector('button.btn-follow');
+    if (btn) {
+      btn.addEventListener('click', function (e) {
+        if (btn.innerHTML == 'Following') {
+          btn.innerHTML = 'Follow';
+        } else {
+          btn.innerHTML = 'Following';
+        }
+      });
+    }
+  </script>
 
-{% block profile %}
+  {% block profile %}
 
-<p><a href="/profile/edit">Edit profile</a></p>
+    <p><a href="/profile/edit">Edit profile</a></p>
 
-<p>
-  Updated today:
-  https://zerohedge.com/
-</p>
+    <p>
+      Updated today:
+      https://zerohedge.com/
+    </p>
 
-<p>This is the profiles custom text.</p>
+    <p>This is the profiles custom text.</p>
 
-<p>On a long enough timeline.... you know!</p>
+    <p>On a long enough timeline.... you know!</p>
 
-<p><a href="/profile/edit">Edit profile</a></p>
-{% endblock %}
+    <p><a href="/profile/edit">Edit profile</a></p>
+  {% endblock %}
 
 {% endblock %}
