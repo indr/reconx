@@ -13,17 +13,17 @@
 {{ csrfField }}
 
 <fieldset class="form-group">
-  {{ form.label('USERNAME:') }}
+  {{ form.label('username', 'USERNAME:') }}
   {{ form.text('username', null, { class: 'form-control'}) }}
 </fieldset>
 
 <fieldset class="form-group">
-  {{ form.label('EMAIL:') }}
+  {{ form.label('email', 'EMAIL:') }}
   {{ form.text('email', null, { class: 'form-control'}) }}
 </fieldset>
 
 <div class="form-actions">
-  {{ form.submit('Submit', 'submit', { class: 'btn btn-primary btn-block' }) }}
+  {{ form.submit('Submit', 'submit', { class: 'btn btn-primary' }) }}
 </div>
 {{ form.close() }}
 {% endblock %}

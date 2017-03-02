@@ -3,19 +3,27 @@
 {% block content %}
 <h1>Forgot Password</h1>
 
-<div class="alert alert-success">
-  Email with instructions has been sent.
+
+{% if old('success') %}
+<div class="alert alert-success"> {{ old('success') }}</div>
+{% endif %}
+
+{% if old('errors') %}
+{% for error in old('errors') %}
+<div class="alert alert-error"> {{ error.message }}</div>
+{% endfor %}
+{% endif %}
+
+{{ form.open({action: 'AuthController.forgot'}) }}
+{{ csrfField }}
+
+<fieldset class="form-group">
+  {{ form.label('email', 'EMAIL:') }}
+  {{ form.text('email', null, { class: 'form-control' }) }}
+</fieldset>
+
+<div class="form-actions">
+  {{ form.submit('Submit', 'submit', { class: 'btn btn-primary' }) }}
 </div>
-
-<form class="form" method="post">
-  {{ csrfField }}
-  <fieldset class="form-group">
-    <label for="username">Email:</label>
-    <input id="username" type="text" placeholder="" class="form-control">
-  </fieldset>
-
-  <div class="form-actions">
-    <button type="submit" class="btn btn-primary btn-block">Submit</button>
-  </div>
-</form>
+{{ form.close() }}
 {% endblock %}
