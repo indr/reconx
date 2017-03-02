@@ -103,10 +103,11 @@ class AuthController {
 
   * update (request, response) {
     const user = request.currentUser
-    const data = request.only('username', 'password', 'confirm')
+    const data = request.only('username')
 
-    const rules = {
-      username: 'required|min:2|alpha_numeric|unique:users'
+    const rules = {}
+    if (user.username != data.username) {
+      rules.username = [ 'required', 'min:2', 'regex:^[a-za-z0-9\-_]+$', 'unique:users' ]
     }
 
     const validation = yield Validator.validate(data, rules)
@@ -152,7 +153,7 @@ class AuthController {
     const data = request.only('username', 'email')
 
     const rules = {
-      username: 'required|min:2|alpha_numeric|unique:users',
+      username: [ 'required', 'min:2', 'regex:^[a-za-z0-9\-_]+$', 'unique:users' ],
       email: 'required|email|unique:users'
     }
 
