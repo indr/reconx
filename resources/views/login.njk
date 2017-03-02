@@ -9,13 +9,12 @@
   {{ csrfField }}
 
   <fieldset class="form-group">
-    {{ form.label('identifier', 'IDENTIFIER:') }}
+    {{ form.label('identifier', 'Email:') }}
     {{ form.text('identifier', null, { class: 'form-control' }) }}
-    <div class="help-block">Username or email address</div>
   </fieldset>
 
   <fieldset class="form-group">
-    {{ form.label('password', 'PASSWORD:') }}
+    {{ form.label('password', 'Password:') }}
     {{ form.password('password', null, { class: 'form-control' }) }}
     <div class="help-block"><a href="/forgot">Forgot password?</a></div>
   </fieldset>

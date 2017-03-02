@@ -25,10 +25,13 @@
             <div class="pull-right">»</div>
           </a>
           {% if currentUser %}
-            <a class="menu-item" href="/{{ currentUser.username }}">/{{ currentUser.username }}
+            <a class="menu-item" href="/{{ currentUser.username }}">Profile
               <div class="pull-right">»</div>
             </a>
-            <a class="menu-item" href="/account/edit">{{ currentUser.email }}
+            <a class="menu-item" href="/{{ currentUser.username }}/following">Following
+              <div class="pull-right">»</div>
+            </a>
+            <a class="menu-item" href="/account/edit">Account
               <div class="pull-right">»</div>
             </a>
             <a class="menu-item" href="/logout">Logout

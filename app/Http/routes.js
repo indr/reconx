@@ -32,6 +32,7 @@ Route.post('/signup', 'AuthController.signup')
 Route.on('/account').render('account/view')
 Route.on('/account/edit').render('account/edit')
 Route.on('/account/delete').render('account/delete')
+Route.post('/account/delete', 'AuthController.delete')
 
 Route.on('/profile').render('profile')
 Route.on('/profile/edit').render('profile/edit')

@@ -8,6 +8,36 @@ const Validator = use('Validator')
 
 class AuthController {
 
+  * delete (request, response) {
+    const data = request.only('password')
+
+    const rules = { password: 'required' }
+    const validation = yield Validator.validate(data, rules)
+
+    if (validation.fails()) {
+      yield request.with({ errors: validation.messages() }).flash()
+      response.redirect('back')
+      return;
+    }
+
+    try {
+      const email = request.currentUser.email
+      yield request.auth.validate(email, data.password)
+      yield request.auth.logout()
+      yield request.currentUser.delete()
+    } catch (ex) {
+      yield request.with({ errors: [ { message: ex.message } ] }).flash()
+      response.redirect('back')
+      return
+    }
+
+    yield request
+      .with({ success: 'Account successfully deleted.' })
+      .flash();
+
+    yield response.redirect('/')
+  }
+
   * forgot (request, response) {
     const data = request.only('email')
 
@@ -97,8 +127,6 @@ class AuthController {
     const validation = yield Validator.validate(data, rules)
 
     if (validation.fails()) {
-      const messages = validation.messages();
-      console.log(messages)
       yield request
         .withOnly('username', 'email')
         .andWith({ errors: validation.messages() })
@@ -128,6 +156,7 @@ class AuthController {
     yield request
       .with({ success: 'Successfully signed up. Email with instructions has been sent. Password: ' + data.password })
       .flash()
+
     response.redirect('/login')
   }
 
