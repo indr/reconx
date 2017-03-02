@@ -77,7 +77,13 @@ class AuthController {
   }
 
   * logout (request, response) {
-    yield response.sendView('logout')
+    yield request.auth.logout();
+
+    yield request
+      .with({ success: 'Successfully logged out.' })
+      .flash();
+
+    response.redirect('/');
   }
 
   * signup (request, response) {

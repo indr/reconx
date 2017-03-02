@@ -19,25 +19,29 @@
     <div class="cell -3of12">
       <div class="content">
         <h1>RECONX</h1>
+
         <div class="menu">
           <a class="menu-item" href="/">Home
             <div class="pull-right">»</div>
           </a>
-          <a class="menu-item" href="/signup">Signup
-            <div class="pull-right">»</div>
-          </a>
-          <a class="menu-item" href="/login">Login
-            <div class="pull-right">»</div>
-          </a>
-          <a class="menu-item" href="/logout">Logout
-            <div class="pull-right">»</div>
-          </a>
-          <a class="menu-item" href="/profile">Profile
-            <div class="pull-right">»</div>
-          </a>
-          <a class="menu-item" href="/account/edit">Account
-            <div class="pull-right">»</div>
-          </a>
+          {% if currentUser %}
+            <a class="menu-item" href="/{{ currentUser.username }}">/{{ currentUser.username }}
+              <div class="pull-right">»</div>
+            </a>
+            <a class="menu-item" href="/account/edit">{{ currentUser.email }}
+              <div class="pull-right">»</div>
+            </a>
+            <a class="menu-item" href="/logout">Logout
+              <div class="pull-right">»</div>
+            </a>
+          {% else %}
+            <a class="menu-item" href="/login">Login
+              <div class="pull-right">»</div>
+            </a>
+            <a class="menu-item" href="/signup">Signup
+              <div class="pull-right">»</div>
+            </a>
+          {% endif %}
         </div>
 
         <h1>SEARCH</h1>
