@@ -3,24 +3,27 @@
 {% block content %}
 <h1>Signup</h1>
 
-<div class="alert alert-error">
-  Username is already taken.
+{% if old('errors') %}
+{% for error in old('errors') %}
+<div class="alert alert-error"> {{ error.message }}</div>
+{% endfor %}
+{% endif %}
+
+{{ form.open({action: 'AuthController.signup'}) }}
+{{ csrfField }}
+
+<fieldset class="form-group">
+  {{ form.label('USERNAME:') }}
+  {{ form.text('username', null, { class: 'form-control'}) }}
+</fieldset>
+
+<fieldset class="form-group">
+  {{ form.label('EMAIL:') }}
+  {{ form.text('email', null, { class: 'form-control'}) }}
+</fieldset>
+
+<div class="form-actions">
+  {{ form.submit('Submit', 'submit', { class: 'btn btn-primary btn-block' }) }}
 </div>
-
-<form class="form" method="post">
-  {{ csrfField }}
-  <fieldset class="form-group">
-    <label for="username">USERNAME:</label>
-    <input id="username" type="text" placeholder="" class="form-control">
-  </fieldset>
-
-  <fieldset class="form-group">
-    <label for="email">EMAIL:</label>
-    <input id="email" type="text" placeholder="" class="form-control">
-  </fieldset>
-
-  <div class="form-actions">
-    <button type="submit" class="btn btn-primary btn-block">Submit</button>
-  </div>
-</form>
+{{ form.close() }}
 {% endblock %}

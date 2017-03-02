@@ -3,26 +3,33 @@
 {% block content %}
 <h1>Login</h1>
 
-<div class="alert alert-error">
-  Unknown identification or invalid password.
+{% if old('success') %}
+<div class="alert alert-success"> {{ old('success') }}</div>
+{% endif %}
+
+{% if old('errors') %}
+{% for error in old('errors') %}
+<div class="alert alert-error"> {{ error.message }}</div>
+{% endfor %}
+{% endif %}
+
+{{ form.open({action: 'AuthController.login'}) }}
+{{ csrfField }}
+
+<fieldset class="form-group">
+  {{ form.label('IDENTIFIER:') }}
+  {{ form.text('identifier', null, { class: 'form-control' }) }}
+  <div class="help-block">Username or email address</div>
+</fieldset>
+
+<fieldset class="form-group">
+  {{ form.label('PASSWORD:') }}
+  {{ form.password('password', null, { class: 'form-control' }) }}
+  <div class="help-block"><a href="/forgot">Forgot password?</a></div>
+</fieldset>
+
+<div class="form-actions">
+  {{ form.submit('Submit', 'submit', { class: 'btn btn-primary btn-block' }) }}
 </div>
-
-<form class="form" method="post">
-  {{ csrfField }}
-  <fieldset class="form-group">
-    <label for="identification">IDENTIFICATION:</label>
-    <input id="identification" type="text" placeholder="" class="form-control">
-    <div class="help-block">Username or email address</div>
-  </fieldset>
-
-  <fieldset class="form-group">
-    <label for="password">PASSWORD:</label>
-    <input id="password" type="password" placeholder="" class="form-control">
-    <div class="help-block"><a href="/forgot">Forgot password?</a></div>
-  </fieldset>
-
-  <div class="form-actions">
-    <button type="submit" class="btn btn-primary btn-block">Submit</button>
-  </div>
-</form>
+{{ form.close() }}
 {% endblock %}
