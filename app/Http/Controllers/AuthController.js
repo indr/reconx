@@ -1,5 +1,9 @@
 'use strict'
 
+const uuid = require('node-uuid')
+const passgen = require('pass-gen')
+
+const User = use('App/Model/User')
 const Validator = use('Validator')
 
 class AuthController {
@@ -17,6 +21,7 @@ class AuthController {
         .flash()
 
       response.redirect('back')
+      return
     }
 
     yield request
@@ -46,6 +51,28 @@ class AuthController {
       return
     }
 
+    let login = null;
+    try {
+      login = yield request.auth.attempt(data.identifier, data.password)
+    } catch (ex) {
+      yield request
+        .with({ errors: [ { message: ex.message } ] })
+        .flash()
+
+      response.redirect('back')
+      return;
+    }
+
+    if (!login) {
+      yield request
+        .withOnly('identifier')
+        .andWith({ errors: [ { message: 'Invalid username or password' } ] })
+        .flash()
+
+      response.redirect('back')
+      return
+    }
+
     yield response.redirect('/')
   }
 
@@ -57,13 +84,15 @@ class AuthController {
     const data = request.only('username', 'email')
 
     const rules = {
-      username: 'required',
-      email: 'required|email'
+      username: 'required|unique:users',
+      email: 'required|email|unique:users'
     }
 
     const validation = yield Validator.validate(data, rules)
 
     if (validation.fails()) {
+      const messages = validation.messages();
+      console.log(messages)
       yield request
         .withOnly('username', 'email')
         .andWith({ errors: validation.messages() })
@@ -73,10 +102,31 @@ class AuthController {
       return
     }
 
+    data.password = AuthController.makePassword()
+    try {
+      yield User.create({
+        id: uuid.v4(),
+        username: data.username,
+        email: data.email,
+        password: data.password,
+      })
+    } catch (ex) {
+      yield request
+        .with({ errors: [ { message: ex.message } ] })
+        .flash()
+
+      response.redirect('back')
+      return;
+    }
+
     yield request
-      .with({ success: 'Successfully signed up. Email with instructions has been sent.' })
+      .with({ success: 'Successfully signed up. Email with instructions has been sent. Password: ' + data.password })
       .flash()
     response.redirect('/login')
+  }
+
+  static makePassword () {
+    return passgen({ ascii: true, ASCII: true, numbers: true, length: 12 })
   }
 }
 
