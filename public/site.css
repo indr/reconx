@@ -1,25 +1,17 @@
-.menu {
-  margin: 2rem 0;
-}
-
-.search {
-  margin: 2rem 0 4rem;
-}
-
 .search .form {
   display: flex;
   width: auto;
 }
 
 .search input#query {
-  width: 70%;
   flex: 1 1 auto;
+  width: 70%;
 }
 
 .search button[type=submit] {
-  width: 20%;
-  flex: 0 1 auto;
   display: inline-block;
+  flex: 0 1 auto;
+  width: 20%;
 }
 
 @media screen and (min-width: 768px) {
@@ -28,22 +20,10 @@
   }
 }
 
-.cards {
-  display: flex;
-  align-items: stretch;
-  justify-content: flex-start;
-  align-content: flex-start;
-  flex-wrap: wrap;
-  margin: -0.5rem -0.5rem 2rem;
-}
-
-.cards .card {
-  flex: 1 1 20%;
-  margin: 0.5rem;
-}
-
 .footer {
+  margin-top: 2rem;
   border-top: solid black 1px;
   padding-top: 1rem;
   text-align: center;
+  padding-bottom: 1rem;
 }
