@@ -1,22 +1,17 @@
 {% extends 'master' %}
 
 {% block content %}
-<h1>Signup</h1>
+<h1>Forgot Password</h1>
 
-<div class="alert alert-error">
-  Username is already taken.
+<div class="alert alert-success">
+  Email with instructions has been sent.
 </div>
 
 <form class="form" method="post">
   {{ csrfField }}
   <fieldset class="form-group">
-    <label for="username">USERNAME:</label>
+    <label for="username">Email:</label>
     <input id="username" type="text" placeholder="" class="form-control">
-  </fieldset>
-
-  <fieldset class="form-group">
-    <label for="email">EMAIL:</label>
-    <input id="email" type="text" placeholder="" class="form-control">
   </fieldset>
 
   <div class="form-actions">

@@ -3,16 +3,22 @@
 {% block content %}
 <h1>Login</h1>
 
+<div class="alert alert-error">
+  Unknown identification or invalid password.
+</div>
+
 <form class="form" method="post">
   {{ csrfField }}
   <fieldset class="form-group">
-    <label for="username">USERNAME:</label>
-    <input id="username" type="text" placeholder="" class="form-control">
+    <label for="identification">IDENTIFICATION:</label>
+    <input id="identification" type="text" placeholder="" class="form-control">
+    <div class="help-block">Username or email address</div>
   </fieldset>
 
   <fieldset class="form-group">
     <label for="password">PASSWORD:</label>
     <input id="password" type="password" placeholder="" class="form-control">
+    <div class="help-block"><a href="/forgot">Forgot password?</a></div>
   </fieldset>
 
   <div class="form-actions">

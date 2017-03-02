@@ -28,6 +28,20 @@
   }
 }
 
+.cards {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  margin: -0.5rem -0.5rem 2rem;
+}
+
+.cards .card {
+  flex: 1 1 20%;
+  margin: 0.5rem;
+}
+
 .footer {
   border-top: solid black 1px;
   padding-top: 1rem;
