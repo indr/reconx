@@ -17,7 +17,7 @@
 
 const Route = use('Route')
 
-Route.on('/').render('welcome')
+Route.get('/', 'ProfilesController.index')
 Route.on('/about').render('about')
 Route.on('/contact').render('contact')
 
