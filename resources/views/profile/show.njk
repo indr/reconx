@@ -3,7 +3,7 @@
 {% block content %}
   <h1>Zero Hedge <a href="/profile">/zerohedge</a></h1>
   <p>
-    <a href="/profile/followers">43 followers</a> <a href="/profile/following">123 following</a>
+    <a href="/{{ profile.username }}/followers">43 followers</a> <a href="/{{ profile.username }}/following">123 following</a>
     <button type="button" class="btn btn-default btn-ghost btn-follow">Follow</button>
   </p>
 
@@ -22,7 +22,7 @@
 
   {% block profile %}
 
-    <p><a href="/profile/edit">Edit profile</a></p>
+    <p><a href="/{{ profile.username }}/edit">Edit profile</a></p>
 
     <p>
       Updated today:
@@ -32,8 +32,6 @@
     <p>This is the profiles custom text.</p>
 
     <p>On a long enough timeline.... you know!</p>
-
-    <p><a href="/profile/edit">Edit profile</a></p>
   {% endblock %}
 
 {% endblock %}

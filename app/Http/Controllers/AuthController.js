@@ -77,7 +77,16 @@ class AuthController {
     }
 
     let login = null;
-    login = yield request.auth.attempt(data.identifier, data.password)
+    try {
+      login = yield request.auth.attempt(data.identifier, data.password)
+    } catch (ex) {
+      console.log('ex.name' + ex.name)
+      login = null
+      if (ex.name != 'PasswordMisMatchException') {
+        throw ex
+      }
+    }
+
     if (!login) {
       yield request
         .withOnly('identifier')

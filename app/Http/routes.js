@@ -21,6 +21,7 @@ Route.get('/', 'ProfilesController.index')
 Route.on('/about').render('about')
 Route.on('/contact').render('contact')
 
+// Meta
 Route.on('/forgot').render('forgot')
 Route.post('/forgot', 'AuthController.forgot')
 Route.on('/login').render('login')
@@ -29,6 +30,7 @@ Route.get('/logout', 'AuthController.logout')
 Route.on('/signup').render('signup')
 Route.post('/signup', 'AuthController.signup')
 
+// Account
 Route.on('/account/edit').render('account/edit')
 Route.post('/account/edit', 'AuthController.update')
 Route.on('/account/delete').render('account/delete')
@@ -36,9 +38,9 @@ Route.post('/account/delete', 'AuthController.delete')
 Route.on('/account/password').render('account/password')
 Route.post('/account/password', 'AuthController.setPassword')
 
-Route.on('/profile').render('profile')
-Route.on('/profile/edit').render('profile/edit')
-Route.on('/profile/followers').render('followers')
-Route.on('/profile/following').render('following')
-
-
+// Profile
+Route.get('/:username', 'ProfileController.show')
+Route.get('/:username/edit', 'ProfileController.edit')
+Route.post('/:username/edit', 'ProfileController.update')
+Route.get('/:username/followers', 'ProfileController.followers')
+Route.get('/:username/following', 'ProfileController.following')
