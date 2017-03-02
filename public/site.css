@@ -1,0 +1,35 @@
+.menu {
+  margin: 2rem 0;
+}
+
+.search {
+  margin: 2rem 0 4rem;
+}
+
+.search .form {
+  display: flex;
+  width: auto;
+}
+
+.search input#query {
+  width: 70%;
+  flex: 1 1 auto;
+}
+
+.search button[type=submit] {
+  width: 20%;
+  flex: 0 1 auto;
+  display: inline-block;
+}
+
+@media screen and (min-width: 768px) {
+  .content-container {
+    padding-left: 2rem;
+  }
+}
+
+.footer {
+  border-top: solid black 1px;
+  padding-top: 1rem;
+  text-align: center;
+}

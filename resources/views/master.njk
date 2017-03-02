@@ -1,38 +1,64 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>AdonisJs - Node.Js MVC Framework</title>
+  <title>reconx</title>
 
-  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,200,300,600,700,900' rel='stylesheet' type='text/css'>
   <link rel="icon" href="/assets/favicon.png" type="image/x-icon">
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="hack.css">
+  <link rel="stylesheet" type="text/css" href="site.css">
 </head>
-<body>
+<body class="hack">
 
-  <section>
-    <div class="__wrapper">
-      {% block content %}{% endblock %}
+<div class="container">
+  <div class="grid">
 
-      {% block footer %}
-        <div class="__footer">
-          <ul>
-            <li>
-              <a href="https://twitter.com/intent/tweet?url=http://adonisjs.com&text=I am using AdonisJs, a practical MVC framework for nodejs&hashtags=nodejs,adonisframework" target="_blank">
-                <img src="/assets/twitter.svg">
-              </a>
-            </li>
-            <li>
-              <a href="https://github.com/adonisjs/adonis-framework" target="_blank"><img src="/assets/github.svg"></a>
-            </li>
-          </ul>
+    <div class="cell -3of12">
+      <div class="content">
+        <h1>RECONX</h1>
+
+        <div class="menu">
+          <a class="menu-item" href="/">Home
+            <div class="pull-right">»</div>
+          </a>
+          <a class="menu-item" href="/signup">Signup
+            <div class="pull-right">»</div>
+          </a>
+          <a class="menu-item" href="/login">Login
+            <div class="pull-right">»</div>
+          </a>
+          <a class="menu-item" href="/logout">Logout
+            <div class="pull-right">»</div>
+          </a>
         </div>
-      {% endblock %}
+
+        <h1>SEARCH</h1>
+        <div class="search">
+          <form class="form" action="/" method="get">
+            <input id="query" type="text" name="q" placeholder="" class="form-control">
+            <button type="submit" class="btn btn-primary">»</button>
+          </form>
+        </div>
+
+      </div>
     </div>
-  </section>
+
+    <div class="cell -9of12">
+      <div class="content content-container">
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+  </div>
+
+  {% block footer %}
+  <div class="footer">
+    <a href="/about">About</a> | <a href="/contact">Contact</a> | <a href="https://github.com/indr/reconx">GitHub</a>
+  </div>
+  {% endblock %}
+</div>
 
 </body>
 </html>

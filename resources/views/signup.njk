@@ -1,0 +1,22 @@
+{% extends 'master' %}
+
+{% block content %}
+<h1>Signup</h1>
+
+<form class="form" method="post">
+  {{ csrfField }}
+  <fieldset class="form-group">
+    <label for="username">USERNAME:</label>
+    <input id="username" type="text" placeholder="" class="form-control">
+  </fieldset>
+
+  <fieldset class="form-group">
+    <label for="email">EMAIL:</label>
+    <input id="email" type="text" placeholder="" class="form-control">
+  </fieldset>
+
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+  </div>
+</form>
+{% endblock %}
