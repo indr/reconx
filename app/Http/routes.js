@@ -29,10 +29,12 @@ Route.get('/logout', 'AuthController.logout')
 Route.on('/signup').render('signup')
 Route.post('/signup', 'AuthController.signup')
 
-Route.on('/account').render('account/view')
 Route.on('/account/edit').render('account/edit')
+Route.post('/account/edit', 'AuthController.update')
 Route.on('/account/delete').render('account/delete')
 Route.post('/account/delete', 'AuthController.delete')
+Route.on('/account/password').render('account/password')
+Route.post('/account/password', 'AuthController.setPassword')
 
 Route.on('/profile').render('profile')
 Route.on('/profile/edit').render('profile/edit')
