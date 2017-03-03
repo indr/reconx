@@ -21,7 +21,7 @@ Route.get('/', 'ProfilesController.index')
 Route.on('/about').render('about')
 Route.on('/contact').render('contact')
 
-// Meta
+// Auth
 Route.on('/forgot').render('forgot')
 Route.post('/forgot', 'AuthController.forgot')
 Route.on('/login').render('login')
@@ -31,12 +31,12 @@ Route.on('/signup').render('signup')
 Route.post('/signup', 'AuthController.signup')
 
 // Account
-Route.on('/account/edit').render('account/edit')
-Route.post('/account/edit', 'AuthController.update')
-Route.on('/account/delete').render('account/delete')
-Route.post('/account/delete', 'AuthController.delete')
-Route.on('/account/password').render('account/password')
-Route.post('/account/password', 'AuthController.setPassword')
+Route.get('/account/edit', 'AccountController.edit')
+Route.post('/account/edit', 'AccountController.update')
+Route.get('/account/delete', 'AccountController.showDelete')
+Route.post('/account/delete', 'AccountController.destroy')
+Route.get('/account/password', 'AccountController.showPassword')
+Route.post('/account/password', 'AccountController.updatePassword')
 
 // Profile
 Route.get('/:username', 'ProfileController.show')

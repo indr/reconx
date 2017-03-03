@@ -9,30 +9,6 @@ const Validator = use('Validator')
 
 class AuthController {
 
-  * delete (request, response) {
-    const data = request.only('password')
-
-    const rules = { password: 'required' }
-    const validation = yield Validator.validate(data, rules)
-
-    if (validation.fails()) {
-      yield request.with({ errors: validation.messages() }).flash()
-      response.redirect('back')
-      return;
-    }
-
-    const email = request.currentUser.email
-    yield request.auth.validate(email, data.password)
-    yield request.auth.logout()
-    yield request.currentUser.delete()
-
-    yield request
-      .with({ success: 'Account successfully deleted.' })
-      .flash();
-
-    yield response.redirect('/')
-  }
-
   * forgot (request, response) {
     const data = request.only('email')
 
@@ -80,9 +56,11 @@ class AuthController {
     try {
       login = yield request.auth.attempt(data.identifier, data.password)
     } catch (ex) {
-      console.log('ex.name' + ex.name)
-      login = null
-      if (ex.name != 'PasswordMisMatchException') {
+      if (ex.name == 'PasswordMisMatchException') {
+        login = null
+      } else if (ex.name == 'UserNotFoundException') {
+        login = null
+      } else {
         throw ex
       }
     }
@@ -90,7 +68,7 @@ class AuthController {
     if (!login) {
       yield request
         .withOnly('identifier')
-        .andWith({ errors: [ { message: 'Invalid username or password' } ] })
+        .andWith({ error: 'Invalid username or password' })
         .flash()
 
       response.redirect('back')
@@ -108,54 +86,6 @@ class AuthController {
       .flash();
 
     response.redirect('/');
-  }
-
-  * update (request, response) {
-    const user = request.currentUser
-    const data = request.only('username')
-
-    const rules = {}
-    if (user.username != data.username) {
-      rules.username = [ 'required', 'min:2', 'regex:^[a-za-z0-9\-_]+$', 'unique:users' ]
-    }
-
-    const validation = yield Validator.validate(data, rules)
-
-    if (validation.fails()) {
-      yield request.withOnly('username').andWith({ errors: validation.messages() }).flash()
-      response.redirect('back')
-      return
-    }
-
-    user.username = data.username
-    yield user.save()
-
-    yield request.with({ success: 'Account successfully updated.' }).flash()
-    response.redirect('back')
-  }
-
-  * setPassword (request, response) {
-    const user = request.currentUser
-    const data = request.only('password', 'confirmation')
-
-    const rules = {
-      password: 'required|min:8',
-      confirmation: 'required_if:password|same:password'
-    }
-
-    const validation = yield Validator.validate(data, rules)
-
-    if (validation.fails()) {
-      yield request.with({ errors: validation.messages() }).flash()
-      response.redirect('back')
-      return
-    }
-
-    user.password = yield Hash.make(data.password)
-    yield user.save()
-
-    yield request.with({ success: 'Password successfully updated.' }).flash()
-    yield response.redirect('back')
   }
 
   * signup (request, response) {
