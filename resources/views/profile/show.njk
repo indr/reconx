@@ -1,7 +1,7 @@
 {% extends 'master' %}
 
 {% block content %}
-  <h1>{{ profile.getFullName() }} <a href="{{ profile.getUrl() }}">{{ profile.getUrl() }}</a></h1>
+  <h1>{{ profile.fullName }} <a href="{{ profile.url }}">{{ profile.url }}</a></h1>
 
   {% include 'flash_messages' %}
 
@@ -10,9 +10,9 @@
   {% endif %}
   <p>
     {% if canEdit %}
-      <a href="{{ profile.getUrl() }}/edit">Edit profile</a>
+      <a href="{{ profile.url }}/edit">Edit profile</a>
     {% endif %}
-    <a href="{{ profile.getUrl() }}/followers">43 followers</a> <a href="/{{ profile.getUrl() }}/following">123
+    <a href="{{ profile.url }}/followers">43 followers</a> <a href="{{ profile.url }}/following">123
       following</a>
     {% if currentUser %}
       <button type="button" class="btn btn-default btn-ghost btn-follow">Follow</button>
@@ -33,11 +33,7 @@
   </script>
 
   {% block profile %}
-
-
-    <hr>
     {{ profile.longDescription }}
-    <hr>
   {% endblock %}
 
 {% endblock %}

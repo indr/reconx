@@ -10,23 +10,23 @@
 
   <fieldset class="form-group">
     {{ form.label('name', "Name:") }}
-    {{ form.text('name', data.name, { class: 'form-control' }) }}
+    {{ form.text('name', profile.fullName, { class: 'form-control' }) }}
   </fieldset>
 
   <fieldset class="form-group">
     {{ form.label('shortDescription', "Description:") }}
-    {{ form.text('shortDescription', data.shortDescription, { class: 'form-control' }) }}
+    {{ form.text('shortDescription', profile.shortDescription, { class: 'form-control' }) }}
   </fieldset>
 
   <fieldset class="form-group">
-    {{ form.textarea('longDescription', data.longDescription, { class: 'form-control', rows: 15, style: 'width: 100%' }) }}
+    {{ form.textarea('longDescription', profile.longDescription, { class: 'form-control', rows: 15, style: 'width: 100%' }) }}
     <div class="help-block"><a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown
         formatting help</a></div>
   </fieldset>
 
   <div class="form-actions">
     {{ form.submit('Submit', 'submit', { class: 'btn btn-primary'}) }}
-    <a href="{{ profile.getUrl() }}">Cancel</a>
+    <a href="{{ profile.url }}">Cancel</a>
   </div>
 
   {{ form.close() }}

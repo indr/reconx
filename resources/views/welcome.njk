@@ -1,4 +1,5 @@
 {% extends 'master' %}
+{% from 'macros.profile_list_item' import profileListItem %}
 
 {% block content %}
   <h1>Latest Profiles</h1>
@@ -6,15 +7,6 @@
   {% include 'flash_messages' %}
 
   {% for profile in profiles %}
-    <div class="media">
-      <div class="media-left">
-        <div class="avatarholder">{{ profile.fullName.substr(0, 1) }}</div>
-      </div>
-      <div class="media-body">
-        <div class="media-heading">{{ profile.name }} <a href="{{ profile.url }}">{{ profile.url }}</a></div>
-        <div class="media-content">{{ profile.shortDescription }} </div>
-      </div>
-    </div>
+    {{ profileListItem(profile) }}
   {% endfor %}
-
 {% endblock %}

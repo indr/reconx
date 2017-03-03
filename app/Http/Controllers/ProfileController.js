@@ -8,8 +8,8 @@ class ProfileController {
   * show (request, response) {
     const profile = yield this.findProfile(request)
     yield response.sendView('profile/show', {
-      profile,
-      canEdit: request.currentUser && profile.id == request.currentUser.id
+      profile: profile.toJSON(),
+      canEdit: this.canEdit(profile, request.currentUser)
     })
   }
 
@@ -20,8 +20,7 @@ class ProfileController {
     if (user.id != profile.id) {
       throw new NE.HttpException(`Login Failure`, 401)
     }
-    profile.name = profile.getFullName()
-    yield response.sendView('profile/edit', { profile, data: profile })
+    yield response.sendView('profile/edit', { profile: profile.toJSON() })
   }
 
   * update (request, response) {
@@ -46,12 +45,18 @@ class ProfileController {
 
   * followers (request, response) {
     const profile = yield this.findProfile(request)
-    yield response.sendView('profile/followers', { profile })
+    yield response.sendView('profile/followers', {
+      profile: profile.toJSON(),
+      canEdit: this.canEdit(profile, request.currentUser)
+    })
   }
 
   * following (request, response) {
     const profile = yield this.findProfile(request)
-    yield response.sendView('profile/following', { profile })
+    yield response.sendView('profile/following', {
+      profile: profile.toJSON(),
+      canEdit: this.canEdit(profile, request.currentUser)
+    })
   }
 
   * findProfile (request) {
@@ -69,6 +74,10 @@ class ProfileController {
     }
 
     return user
+  }
+
+  canEdit (profile, currentUser) {
+    return profile && currentUser && profile.id == currentUser.id
   }
 }
 
