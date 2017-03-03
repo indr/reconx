@@ -3,18 +3,32 @@
 {% block content %}
   <h1>Edit Profile</h1>
 
-  <form class="form" method="post" style="width:auto">
-    {{ csrfField }}
-    <fieldset class="form-group">
-      <textarea rows="20" class="form-control" style="width:100%"></textarea>
-      <div class="help-block"><a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown
-          formatting help</a></div>
-    </fieldset>
+  {% include 'flash_messages' %}
 
-    <div class="form-actions">
-      <button type="submit" class="btn btn-primary">Submit</button>
-      <a href="/{{ profile.username }}">Cancel</a>
-    </div>
-  </form>
+  {{ form.open({ action: 'ProfileController.update', params: {username: profile.username } }) }}
+  {{ csrfField }}
+
+  <fieldset class="form-group">
+    {{ form.label('name', "Name:") }}
+    {{ form.text('name', data.name, { class: 'form-control' }) }}
+  </fieldset>
+
+  <fieldset class="form-group">
+    {{ form.label('shortDescription', "Description:") }}
+    {{ form.text('shortDescription', data.shortDescription, { class: 'form-control' }) }}
+  </fieldset>
+
+  <fieldset class="form-group">
+    {{ form.textarea('longDescription', data.longDescription, { class: 'form-control', rows: 15, style: 'width: 100%' }) }}
+    <div class="help-block"><a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown
+        formatting help</a></div>
+  </fieldset>
+
+  <div class="form-actions">
+    {{ form.submit('Submit', 'submit', { class: 'btn btn-primary'}) }}
+    <a href="{{ profile.getUrl() }}">Cancel</a>
+  </div>
+
+  {{ form.close() }}
 {% endblock %}
 

@@ -12,11 +12,23 @@ class ProfileController {
 
   * edit (request, response) {
     const profile = yield this.findProfile(request)
-    yield response.sendView('profile/edit', { profile })
+    profile.name = profile.getFullName()
+    yield response.sendView('profile/edit', { profile, data: profile })
   }
 
   * update (request, response) {
-    yield this.show(request, response)
+    const user = request.currentUser
+    const data = request.only('name', 'shortDescription', 'longDescription')
+
+    user.name = data.name
+    user.shortDescription = data.shortDescription
+    user.longDescription = data.longDescription
+
+    yield user.save();
+
+    yield request.with({ success: 'Profile successfully updated.' }).flash()
+
+    response.redirect(user.getUrl())
   }
 
   * followers (request, response) {

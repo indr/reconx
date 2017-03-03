@@ -1,16 +1,22 @@
 {% extends 'master' %}
 
 {% block content %}
-  <h1>Zero Hedge <a href="/profile">/zerohedge</a></h1>
+  <h1>{{ profile.getFullName() }} <a href="{{ profile.getUrl() }}">{{ profile.getUrl() }}</a></h1>
+
+  {% include 'flash_messages' %}
+
+  <p>{{ profile.shortDescription }}</p>
   <p>
-    <a href="/{{ profile.username }}/followers">43 followers</a> <a href="/{{ profile.username }}/following">123 following</a>
+    <a href="{{ profile.getUrl() }}/edit">Edit profile</a>
+    <a href="{{ profile.getUrl() }}/followers">43 followers</a> <a href="/{{ profile.getUrl() }}/following">123
+      following</a>
     <button type="button" class="btn btn-default btn-ghost btn-follow">Follow</button>
   </p>
 
   <script type="text/javascript">
     var btn = document.querySelector('button.btn-follow');
     if (btn) {
-      btn.addEventListener('click', function (e) {
+      btn.addEventListener('click', function () {
         if (btn.innerHTML == 'Following') {
           btn.innerHTML = 'Follow';
         } else {
@@ -22,16 +28,10 @@
 
   {% block profile %}
 
-    <p><a href="/{{ profile.username }}/edit">Edit profile</a></p>
 
-    <p>
-      Updated today:
-      https://zerohedge.com/
-    </p>
-
-    <p>This is the profiles custom text.</p>
-
-    <p>On a long enough timeline.... you know!</p>
+    <hr>
+    {{ profile.longDescription }}
+    <hr>
   {% endblock %}
 
 {% endblock %}

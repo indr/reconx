@@ -18,10 +18,21 @@ class User extends Lucid {
     })
   }
 
+  static get computed () {
+    return [ 'fullName', 'url' ]
+  }
+
   apiTokens () {
     return this.hasMany('App/Model/Token')
   }
 
+  getFullName () {
+    return this.name ? this.name : this.username;
+  }
+
+  getUrl () {
+    return `/${this.username}`;
+  }
 }
 
 module.exports = User
