@@ -10,7 +10,7 @@ class ProfileController {
     yield response.sendView('profile/show', {
       profile: profile.toJSON(),
       canEdit: this.canEdit(profile, request.currentUser),
-      following: yield this.isFollowing(profile, request.currentUser)
+      isFollowing: yield this.isFollowing(profile, request.currentUser)
     })
   }
 
@@ -46,21 +46,29 @@ class ProfileController {
 
   * followers (request, response) {
     const profile = yield this.findProfile(request)
+    const followers = yield User.query().whereHas('following', (builder) => {
+      builder.where('followed_user_id', profile.id)
+    }).fetch()
 
     yield response.sendView('profile/followers', {
       profile: profile.toJSON(),
       canEdit: this.canEdit(profile, request.currentUser),
-      following: yield this.isFollowing(profile, request.currentUser)
+      isFollowing: yield this.isFollowing(profile, request.currentUser),
+      profiles: followers.toJSON()
     })
   }
 
   * following (request, response) {
     const profile = yield this.findProfile(request)
+    const following = yield User.query().whereHas('followers', (builder) => {
+      builder.where('follower_user_id', profile.id)
+    }).fetch()
 
     yield response.sendView('profile/following', {
       profile: profile.toJSON(),
       canEdit: this.canEdit(profile, request.currentUser),
-      following: yield this.isFollowing(profile, request.currentUser)
+      isFollowing: yield this.isFollowing(profile, request.currentUser),
+      profiles: following.toJSON()
     })
   }
 

@@ -7,7 +7,10 @@ const User = use('App/Model/User')
 
 class ProfilesController {
   * index (request, response) {
-    const profiles = yield User.query().orderBy('updated_at', 'desc').fetch()
+    const profiles = yield User.query()
+      .whereNotNull('longDescription')
+      .whereNot('longDescription', '')
+      .orderBy('updated_at', 'desc').fetch()
     yield response.sendView('welcome', { profiles: profiles.toJSON() })
   }
 

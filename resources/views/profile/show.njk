@@ -23,27 +23,27 @@
   {% if currentUser %}
     <script type="text/javascript">
       ready(function () {
-        var following = !!({{ following }} +0);
+        var isFollowing = !!({{ isFollowing }} +0);
         var followers = ({{ profile.followers_count }} +0);
 
         var btn = document.querySelector('button.btn-follow');
         var link = document.querySelector('a#followers');
 
         if (btn) {
-          btn.innerHTML = following ? 'Following' : 'Follow';
+          btn.innerHTML = isFollowing ? 'Following' : 'Follow';
           btn.addEventListener('click', function () {
-            followers = followers + (following ? -1 : 1);
-            following = !following;
+            followers = followers + (isFollowing ? -1 : 1);
+            isFollowing = !isFollowing;
 
             if (btn) {
-              btn.innerHTML = following ? 'Following' : 'Follow';
+              btn.innerHTML = isFollowing ? 'Following' : 'Follow';
             }
             if (link) {
               link.innerHTML = followers + ' followers';
             }
 
             var request = new XMLHttpRequest();
-            request.open(following ? 'POST' : 'DELETE', '/api/profiles/{{ currentUser.id }}/follows/{{ profile.id }}', true);
+            request.open(isFollowing ? 'POST' : 'DELETE', '/api/profiles/{{ currentUser.id }}/follows/{{ profile.id }}', true);
             request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
             request.send('_csrf={{ csrfToken }}');
           });

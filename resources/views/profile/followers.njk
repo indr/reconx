@@ -1,26 +1,14 @@
 {% extends 'profile/show' %}
+{% from 'macros.profile_list_item' import profileListItem %}
 
 {% block profile %}
   <h2>Followers</h2>
 
-  <div class="media">
-    <div class="media-left">
-      <div class="avatarholder">I</div>
-    </div>
-    <div class="media-body">
-      <div class="media-heading">Infowars <a href="/infowars">/infowars</a></div>
-      <div class="media-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
-    </div>
-  </div>
+  {% for profile in profiles %}
+    {{ profileListItem(profile) }}
+  {% endfor %}
 
-  <div class="media">
-    <div class="media-left">
-      <div class="avatarholder">D</div>
-    </div>
-    <div class="media-body">
-      <div class="media-heading">Drudge Report <a href="/drudge-report">/drudge-report</a></div>
-      <div class="media-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
-    </div>
-  </div>
-
+  {% if profiles.length == 0 %}
+    <p>No followers.</p>
+  {% endif %}
 {% endblock %}
