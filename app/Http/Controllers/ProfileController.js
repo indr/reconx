@@ -9,7 +9,8 @@ class ProfileController {
     const profile = yield this.findProfile(request)
     yield response.sendView('profile/show', {
       profile: profile.toJSON(),
-      canEdit: this.canEdit(profile, request.currentUser)
+      canEdit: this.canEdit(profile, request.currentUser),
+      following: yield this.isFollowing(profile, request.currentUser)
     })
   }
 
@@ -45,17 +46,21 @@ class ProfileController {
 
   * followers (request, response) {
     const profile = yield this.findProfile(request)
+
     yield response.sendView('profile/followers', {
       profile: profile.toJSON(),
-      canEdit: this.canEdit(profile, request.currentUser)
+      canEdit: this.canEdit(profile, request.currentUser),
+      following: yield this.isFollowing(profile, request.currentUser)
     })
   }
 
   * following (request, response) {
     const profile = yield this.findProfile(request)
+
     yield response.sendView('profile/following', {
       profile: profile.toJSON(),
-      canEdit: this.canEdit(profile, request.currentUser)
+      canEdit: this.canEdit(profile, request.currentUser),
+      following: yield this.isFollowing(profile, request.currentUser)
     })
   }
 
@@ -77,6 +82,14 @@ class ProfileController {
     }
 
     return user
+  }
+
+  * isFollowing (profile, currentUser) {
+    if (!currentUser) {
+      return false;
+    }
+    const follow = yield currentUser.following().where('followed_user_id', profile.id).first()
+    return follow != null;
   }
 
   canEdit (profile, currentUser) {

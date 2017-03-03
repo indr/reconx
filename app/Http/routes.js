@@ -46,3 +46,6 @@ Route.get('/:username/edit', 'ProfileController.edit').middleware('auth')
 Route.post('/:username/edit', 'ProfileController.update').middleware('auth')
 Route.get('/:username/followers', 'ProfileController.followers')
 Route.get('/:username/following', 'ProfileController.following')
+
+Route.post('/api/profiles/:follower/follows/:followed', 'ProfilesController.follow').middleware('auth')
+Route.delete('/api/profiles/:follower/follows/:followed', 'ProfilesController.unfollow').middleware('auth')

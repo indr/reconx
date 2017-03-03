@@ -13,25 +13,44 @@
     {% if currentUser %}
       <button type="button" class="btn btn-default btn-ghost btn-follow">Follow</button>
     {% endif %}
-    <a href="{{ profile.url }}/followers">{{ profile.followers_count }} followers</a>
+    <a href="{{ profile.url }}/followers" id="followers">{{ profile.followers_count }} followers</a>
     <a href="{{ profile.url }}/following">{{ profile.following_count }} following</a>
     {% if canEdit %}
       <a href="{{ profile.url }}/edit">Edit profile</a>
     {% endif %}
   </p>
 
-  <script type="text/javascript">
-    var btn = document.querySelector('button.btn-follow');
-    if (btn) {
-      btn.addEventListener('click', function () {
-        if (btn.innerHTML == 'Following') {
-          btn.innerHTML = 'Follow';
-        } else {
-          btn.innerHTML = 'Following';
+  {% if currentUser %}
+    <script type="text/javascript">
+      ready(function () {
+        var following = !!({{ following }} +0);
+        var followers = ({{ profile.followers_count }} +0);
+
+        var btn = document.querySelector('button.btn-follow');
+        var link = document.querySelector('a#followers');
+
+        if (btn) {
+          btn.innerHTML = following ? 'Following' : 'Follow';
+          btn.addEventListener('click', function () {
+            followers = followers + (following ? -1 : 1);
+            following = !following;
+
+            if (btn) {
+              btn.innerHTML = following ? 'Following' : 'Follow';
+            }
+            if (link) {
+              link.innerHTML = followers + ' followers';
+            }
+
+            var request = new XMLHttpRequest();
+            request.open(following ? 'POST' : 'DELETE', '/api/profiles/{{ currentUser.id }}/follows/{{ profile.id }}', true);
+            request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+            request.send('_csrf={{ csrfToken }}');
+          });
         }
       });
-    }
-  </script>
+    </script>
+  {% endif %}
 
   {% block profile %}
     {% markdown %}
