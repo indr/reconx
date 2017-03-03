@@ -31,16 +31,18 @@ Route.on('/signup').render('auth/signup')
 Route.post('/signup', 'AuthController.signup')
 
 // Account
-Route.get('/account/edit', 'AccountController.edit')
-Route.post('/account/edit', 'AccountController.update')
-Route.get('/account/delete', 'AccountController.showDelete')
-Route.post('/account/delete', 'AccountController.destroy')
-Route.get('/account/password', 'AccountController.showPassword')
-Route.post('/account/password', 'AccountController.updatePassword')
+Route.group('account-routes', () => {
+  Route.get('/account/edit', 'AccountController.edit')
+  Route.post('/account/edit', 'AccountController.update')
+  Route.get('/account/delete', 'AccountController.showDelete')
+  Route.post('/account/delete', 'AccountController.destroy')
+  Route.get('/account/password', 'AccountController.showPassword')
+  Route.post('/account/password', 'AccountController.updatePassword')
+}).middleware('auth')
 
 // Profile
 Route.get('/:username', 'ProfileController.show')
-Route.get('/:username/edit', 'ProfileController.edit')
-Route.post('/:username/edit', 'ProfileController.update')
+Route.get('/:username/edit', 'ProfileController.edit').middleware('auth')
+Route.post('/:username/edit', 'ProfileController.update').middleware('auth')
 Route.get('/:username/followers', 'ProfileController.followers')
 Route.get('/:username/following', 'ProfileController.following')

@@ -1,37 +1,41 @@
 {% extends 'master' %}
 
 {% block content %}
-  <h1>{{ profile.getFullName() }} <a href="{{ profile.getUrl() }}">{{ profile.getUrl() }}</a></h1>
+<h1>{{ profile.getFullName() }} <a href="{{ profile.getUrl() }}">{{ profile.getUrl() }}</a></h1>
 
-  {% include 'flash_messages' %}
+{% include 'flash_messages' %}
 
-  <p>{{ profile.shortDescription }}</p>
-  <p>
-    <a href="{{ profile.getUrl() }}/edit">Edit profile</a>
-    <a href="{{ profile.getUrl() }}/followers">43 followers</a> <a href="/{{ profile.getUrl() }}/following">123
-      following</a>
+<p>{{ profile.shortDescription }}</p>
+<p>
+  {% if canEdit %}
+  <a href="{{ profile.getUrl() }}/edit">Edit profile</a>
+  {% endif %}
+  <a href="{{ profile.getUrl() }}/followers">43 followers</a> <a href="/{{ profile.getUrl() }}/following">123
+    following</a>
+  {% if currentUser %}
     <button type="button" class="btn btn-default btn-ghost btn-follow">Follow</button>
-  </p>
+  {% endif %}
+</p>
 
-  <script type="text/javascript">
-    var btn = document.querySelector('button.btn-follow');
-    if (btn) {
-      btn.addEventListener('click', function () {
-        if (btn.innerHTML == 'Following') {
-          btn.innerHTML = 'Follow';
-        } else {
-          btn.innerHTML = 'Following';
-        }
-      });
-    }
-  </script>
+<script type="text/javascript">
+  var btn = document.querySelector('button.btn-follow');
+  if (btn) {
+    btn.addEventListener('click', function () {
+      if (btn.innerHTML == 'Following') {
+        btn.innerHTML = 'Follow';
+      } else {
+        btn.innerHTML = 'Following';
+      }
+    });
+  }
+</script>
 
-  {% block profile %}
+{% block profile %}
 
 
-    <hr>
-    {{ profile.longDescription }}
-    <hr>
-  {% endblock %}
+  <hr>
+  {{ profile.longDescription }}
+  <hr>
+{% endblock %}
 
 {% endblock %}

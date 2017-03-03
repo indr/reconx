@@ -7,24 +7,37 @@ class ProfileController {
 
   * show (request, response) {
     const profile = yield this.findProfile(request)
-    yield response.sendView('profile/show', { profile })
+    yield response.sendView('profile/show', {
+      profile,
+      canEdit: request.currentUser && profile.id == request.currentUser.id
+    })
   }
 
   * edit (request, response) {
+    const user = request.currentUser
     const profile = yield this.findProfile(request)
+
+    if (user.id != profile.id) {
+      throw new NE.HttpException(`Login Failure`, 401)
+    }
     profile.name = profile.getFullName()
     yield response.sendView('profile/edit', { profile, data: profile })
   }
 
   * update (request, response) {
     const user = request.currentUser
+    const profile = yield this.findProfile(request)
     const data = request.only('name', 'shortDescription', 'longDescription')
 
-    user.name = data.name
-    user.shortDescription = data.shortDescription
-    user.longDescription = data.longDescription
+    if (user.id != profile.id) {
+      throw new NE.HttpException(`Login Failure`, 401)
+    }
 
-    yield user.save();
+    profile.name = data.name
+    profile.shortDescription = data.shortDescription
+    profile.longDescription = data.longDescription
+
+    yield profile.save();
 
     yield request.with({ success: 'Profile successfully updated.' }).flash()
 
