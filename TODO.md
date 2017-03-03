@@ -1,6 +1,6 @@
 # TODO
 
- - [ ] Follows
+ - [x] Follows
  - [ ] Emails
  - [ ] Avatar
  - [ ] Search

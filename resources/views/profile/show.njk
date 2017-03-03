@@ -7,7 +7,9 @@
   {% include 'flash_messages' %}
 
   {% if profile.shortDescription %}
-    <p>{{ profile.shortDescription }}</p>
+    <p>{{ profile.shortDescription }} {% if canEdit %}
+        <a href="{{ profile.url }}/edit">Edit</a>
+      {% endif %}</p>
   {% endif %}
   <p>
     {% if currentUser %}
@@ -15,9 +17,6 @@
     {% endif %}
     <a href="{{ profile.url }}/followers" id="followers">{{ profile.followers_count }} followers</a>
     <a href="{{ profile.url }}/following">{{ profile.following_count }} following</a>
-    {% if canEdit %}
-      <a href="{{ profile.url }}/edit">Edit profile</a>
-    {% endif %}
   </p>
 
   {% if currentUser %}
@@ -56,6 +55,10 @@
     {% markdown %}
     {{ profile.longDescription }}
     {% endmarkdown %}
+
+    {% if canEdit %}
+      <p> <a href="{{ profile.url }}/edit">Edit</a> </p>
+    {% endif %}
   {% endblock %}
 
 {% endblock %}

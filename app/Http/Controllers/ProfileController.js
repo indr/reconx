@@ -2,6 +2,7 @@
 
 const NE = require('node-exceptions')
 const User = use('App/Model/User')
+const Validator = use('Validator')
 
 class ProfileController {
 
@@ -31,6 +32,21 @@ class ProfileController {
 
     if (user.id != profile.id) {
       throw new NE.HttpException(`Login Failure`, 401)
+    }
+
+    const rules = {
+      name: 'max:80',
+      shortDescription: 'max:254'
+    }
+    const validation = yield Validator.validate(data, rules)
+
+    if (validation.fails()) {
+      yield request
+        .withAll().andWith({ errors: validation.messages() })
+        .flash()
+
+      response.redirect('back')
+      return
     }
 
     profile.name = data.name
