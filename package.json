@@ -25,8 +25,10 @@
     "adonis-websocket": "^1.0.3",
     "hack": "^0.7.7",
     "node-uuid": "^1.4.7",
+    "nunjucks-markdown": "^2.0.1",
     "pass-gen": "0.0.1",
     "pg": "^6.1.2",
+    "showdown": "^1.6.4",
     "standard": "^8.6.0",
     "youch": "^2.0.4"
   },

@@ -33,7 +33,9 @@
   </script>
 
   {% block profile %}
+    {% markdown %}
     {{ profile.longDescription }}
-  {% endblock %}
+    {% endmarkdown %}
+ {% endblock %}
 
 {% endblock %}
