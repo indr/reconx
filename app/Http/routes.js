@@ -22,12 +22,12 @@ Route.on('/about').render('about')
 Route.on('/contact').render('contact')
 
 // Auth
-Route.on('/forgot').render('forgot')
+Route.on('/forgot').render('auth/forgot')
 Route.post('/forgot', 'AuthController.forgot')
-Route.on('/login').render('login')
+Route.on('/login').render('auth/login')
 Route.post('/login', 'AuthController.login')
 Route.get('/logout', 'AuthController.logout')
-Route.on('/signup').render('signup')
+Route.on('/signup').render('auth/signup')
 Route.post('/signup', 'AuthController.signup')
 
 // Account
