@@ -39,11 +39,12 @@ class AccountController {
 
   * updatePassword (request, response) {
     const user = request.currentUser
-    const data = request.only('password', 'confirmation')
+    const data = request.only('old_password', 'new_password', 'confirmation')
 
     const rules = {
-      password: 'required|min:8',
-      confirmation: 'required_if:password|same:password'
+      old_password: 'required',
+      new_password: 'required|min:8',
+      confirmation: 'required_if:password|same:new_password'
     }
 
     const validation = yield Validator.validate(data, rules)
@@ -54,11 +55,22 @@ class AccountController {
       return
     }
 
-    user.password = yield Hash.make(data.password)
+    try {
+      yield request.auth.validate(user.email, data.old_password)
+    } catch (ex) {
+      if (ex.name == 'PasswordMisMatchException') {
+        yield request.with({ error: ex.message }).flash()
+        response.redirect('back')
+        return
+      }
+      throw ex
+    }
+
+    user.password = yield Hash.make(data.new_password)
     yield user.save()
 
     yield request.with({ success: 'Password successfully updated.' }).flash()
-    yield response.redirect('back')
+    yield response.redirect('/account/edit')
   }
 
   * showDelete (request, response) {
@@ -74,7 +86,7 @@ class AccountController {
     if (validation.fails()) {
       yield request.with({ errors: validation.messages() }).flash()
       response.redirect('back')
-      return;
+      return
     }
 
     const email = request.currentUser.email
@@ -85,7 +97,7 @@ class AccountController {
 
       yield request
         .with({ success: 'Account successfully deleted.' })
-        .flash();
+        .flash()
 
       yield response.redirect('/')
     } catch (ex) {
@@ -94,7 +106,7 @@ class AccountController {
         response.redirect('back')
         return
       }
-      throw ex;
+      throw ex
     }
   }
 

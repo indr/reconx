@@ -3,9 +3,8 @@
 {% block content %}
   <h1>Edit Account</h1>
 
-  <p><a href="/account/password">Change password</a></p>
-
   {% include 'flash_messages' %}
+
 
   {{ form.open({action: 'AccountController.update'}) }}
   {{ csrfField }}
@@ -22,6 +21,7 @@
 
   <div class="form-actions">
     {{ form.submit('Submit', 'submit', { class: 'btn btn-primary'}) }}
+    <a href="/account/password">Change password</a>
     <a href="/account/delete">Delete account</a>
   </div>
   {{ form.close() }}
