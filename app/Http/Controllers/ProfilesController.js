@@ -1,8 +1,11 @@
 'use strict'
 
+const User = use('App/Model/User')
+
 class ProfilesController {
   * index (request, response) {
-    yield response.sendView('welcome')
+    const profiles = yield User.query().orderBy('updated_at', 'desc').fetch()
+    yield response.sendView('welcome', { profiles: profiles.toJSON() })
   }
 }
 

@@ -21,14 +21,14 @@
         <h1>RECONX</h1>
 
         <div class="menu">
-          <a class="menu-item" href="/">Home
+          <a class="menu-item" href="/">Browse
             <div class="pull-right">»</div>
           </a>
           {% if currentUser %}
-            <a class="menu-item" href="/{{ currentUser.username }}">Profile
+            <a class="menu-item" href="/{{ currentUser.username }}/following">Following
               <div class="pull-right">»</div>
             </a>
-            <a class="menu-item" href="/{{ currentUser.username }}/following">Following
+            <a class="menu-item" href="/{{ currentUser.username }}">My Profile
               <div class="pull-right">»</div>
             </a>
             <a class="menu-item" href="/account/edit">Account
