@@ -1,6 +1,7 @@
 {% extends 'master' %}
 
 {% block content %}
+
   <h1>{{ profile.fullName }} <a href="{{ profile.url }}">{{ profile.url }}</a></h1>
 
   {% include 'flash_messages' %}
@@ -9,13 +10,13 @@
     <p>{{ profile.shortDescription }}</p>
   {% endif %}
   <p>
-    {% if canEdit %}
-      <a href="{{ profile.url }}/edit">Edit profile</a>
-    {% endif %}
-    <a href="{{ profile.url }}/followers">43 followers</a> <a href="{{ profile.url }}/following">123
-      following</a>
     {% if currentUser %}
       <button type="button" class="btn btn-default btn-ghost btn-follow">Follow</button>
+    {% endif %}
+    <a href="{{ profile.url }}/followers">{{ profile.followers_count }} followers</a>
+    <a href="{{ profile.url }}/following">{{ profile.following_count }} following</a>
+    {% if canEdit %}
+      <a href="{{ profile.url }}/edit">Edit profile</a>
     {% endif %}
   </p>
 
@@ -36,6 +37,6 @@
     {% markdown %}
     {{ profile.longDescription }}
     {% endmarkdown %}
- {% endblock %}
+  {% endblock %}
 
 {% endblock %}

@@ -67,7 +67,10 @@ class ProfileController {
       throw new NE.HttpException(`Route not found ${request.url()}`, 404)
     }
 
-    const user = yield User.query().where('username', username).first()
+    const user = yield User.query()
+      .withCount('followers')
+      .withCount('following')
+      .where('username', username).first()
 
     if (user == null) {
       throw new NE.HttpException(`Route not found ${request.url()}`, 404)

@@ -33,6 +33,14 @@ class User extends Lucid {
   getUrl () {
     return `/${this.username}`;
   }
+
+  following () {
+    return this.hasMany('App/Model/Follow', 'id', 'follower_user_id')
+  }
+
+  followers () {
+    return this.hasMany('App/Model/Follow', 'id', 'followed_user_id')
+  }
 }
 
 module.exports = User
