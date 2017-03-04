@@ -1,13 +1,14 @@
 'use strict'
 
 const uuid = require('node-uuid')
-const passgen = require('pass-gen')
 
 const Env = use('Env')
 const Hash = use('Hash')
 const Mail = use('Mail')
-const User = use('App/Model/User')
 const Validator = use('Validator')
+
+const EmailToken = use('App/Model/EmailToken')
+const User = use('App/Model/User')
 
 class AuthController {
 
@@ -105,6 +106,46 @@ class AuthController {
     response.redirect('/');
   }
 
+  * setPassword (request, response) {
+
+    const token = request.param('token')
+    const emailToken = (yield EmailToken.query().where('token', token).fetch()).first()
+    if (!emailToken) {
+      throw new Exceptions.ModelNotFoundException('token-not-found')
+    }
+
+    if (request.method() == 'POST') {
+      const user = yield emailToken.user().fetch()
+      const data = request.only('old_password', 'new_password', 'confirmation')
+
+      const rules = {
+        new_password: 'required|min:8',
+        confirmation: 'required_if:password|same:new_password'
+      }
+
+      const validation = yield Validator.validate(data, rules)
+
+      if (validation.fails()) {
+        yield request.with({ errors: validation.messages() }).flash()
+        response.redirect('back')
+        return
+      }
+
+      if (emailToken.confirm()) {
+        user.password = yield Hash.make(data.new_password)
+
+        yield user.save()
+        yield emailToken.save()
+
+        yield request.with({ success: 'Password successfully updated.' }).flash();
+        response.redirect('/login')
+        return
+      }
+    }
+
+    yield response.sendView('auth/set-password', { token })
+  }
+
   * signup (request, response) {
     const data = request.only('username', 'email', 'password', 'confirmation')
 
@@ -149,9 +190,6 @@ class AuthController {
     yield response.sendView('auth/signup-done', { success: 'Successfully signed up. Email with instructions has been sent.' })
   }
 
-  static makePassword () {
-    return passgen({ ascii: true, ASCII: true, numbers: true, length: 12 })
-  }
 }
 
 module.exports = AuthController

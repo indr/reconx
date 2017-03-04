@@ -22,20 +22,21 @@ Route.on('/about').render('about')
 Route.on('/contact').render('contact')
 
 // Auth
-Route.on('/forgot').render('auth/forgot')
-Route.post('/forgot', 'AuthController.forgot')
-Route.on('/login').render('auth/login')
-Route.post('/login', 'AuthController.login')
-Route.get('/logout', 'AuthController.logout')
-Route.get('/password-reset/:token', 'AuthController.resetPassword')
-Route.on('/signup').render('auth/signup')
-Route.post('/signup', 'AuthController.signup')
-
-// Account
-Route.group('account-anon-routes', () => {
+Route.group('auth-routes', () => {
+  Route.on('/forgot').render('auth/forgot')
+  Route.post('/forgot', 'AuthController.forgot')
+  Route.on('/login').render('auth/login')
+  Route.post('/login', 'AuthController.login')
+  Route.get('/logout', 'AuthController.logout')
+  Route.post('/account/password-reset/:token', 'AuthController.setPassword')
+  Route.get('/account/password-reset/:token', 'AuthController.setPassword')
+  Route.on('/signup').render('auth/signup')
+  Route.post('/signup', 'AuthController.signup')
   Route.post('/account/activate/:token', 'AccountController.activate')
   Route.get('/account/activate/:token', 'AccountController.activate')
 })
+
+// Account
 Route.group('account-auth-routes', () => {
   Route.get('/account/edit', 'AccountController.edit')
   Route.post('/account/edit', 'AccountController.update')

@@ -13,14 +13,12 @@ class AccountController {
   * activate (request, response) {
 
     const token = request.param('token')
+    const emailToken = (yield EmailToken.query().where('token', token).fetch()).first()
+    if (!emailToken) {
+      throw new Exceptions.ModelNotFoundException('token-not-found')
+    }
 
     if (request.method() == 'POST') {
-
-      const emailToken = (yield EmailToken.query().where('token', token).fetch()).first()
-      if (!emailToken) {
-        throw new Exceptions.ModelNotFoundException('token-not-found')
-      }
-
       const user = yield emailToken.user().fetch()
       if (emailToken.confirm()) {
         user.confirmed = true

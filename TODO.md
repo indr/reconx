@@ -1,7 +1,9 @@
 # TODO
 
  - [x] Follows
- - [ ] Emails
+ - [x] Emails
+ - [ ] Heroku: Postgres
+ - [ ] Mailgun
  - [ ] Avatar
  - [ ] Search
  - [ ] Paging: Browse, Followers, Followees
