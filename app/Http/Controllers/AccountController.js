@@ -1,6 +1,8 @@
 'use strict'
 
+const Env = use('Env')
 const Hash = use('Hash')
+const Mail = use('Mail')
 const Validator = use('Validator')
 
 class AccountController {
@@ -94,6 +96,15 @@ class AccountController {
       yield request.auth.validate(email, data.password)
       yield request.auth.logout()
       yield request.currentUser.delete()
+
+      const model = {
+        base_url: Env.get('BASE_URL')
+      }
+      yield Mail.send([ null, 'emails.account-deleted' ], model, (message) => {
+        message.to(email)
+        message.from(Env.get('MAIL_FROM_EMAIL'), Env.get('MAIL_FROM_NAME'))
+        message.subject('Account deleted')
+      })
 
       yield request
         .with({ success: 'Account successfully deleted.' })

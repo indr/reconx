@@ -3,7 +3,9 @@
 const uuid = require('node-uuid')
 const passgen = require('pass-gen')
 
+const Env = use('Env')
 const Hash = use('Hash')
+const Mail = use('Mail')
 const User = use('App/Model/User')
 const Validator = use('Validator')
 
@@ -24,6 +26,24 @@ class AuthController {
       response.redirect('back')
       return
     }
+
+    const user = (yield User.query().where('email', data.email).fetch()).first()
+    if (!user) {
+      // throw new Exceptions.ModelNotFoundException('email-not-found')
+      yield request.withOnly('email').andWith({ error: 'Email not found.' }).flash()
+      response.redirect('back')
+      return
+    }
+
+    const model = {
+      base_url: Env.get('BASE_URL'),
+      email_token: 'emailToken'
+    }
+    yield Mail.send([ null, 'emails.reset-password' ], model, (message) => {
+      message.to(user.email)
+      message.from(Env.get('MAIL_FROM_EMAIL'), Env.get('MAIL_FROM_NAME'))
+      message.subject('Reset password')
+    })
 
     yield request
       .with({ success: 'Email with instructions has been sent.' })
@@ -109,11 +129,21 @@ class AuthController {
     }
 
     data.password = AuthController.makePassword()
-    yield User.create({
+    const user = yield User.create({
       id: uuid.v4(),
       username: data.username,
       email: data.email,
       password: data.password,
+    })
+
+    const model = {
+      base_url: Env.get('BASE_URL'),
+      email_token: 'emailToken'
+    }
+    yield Mail.send([ null, 'emails.account-activation' ], model, (message) => {
+      message.to(user.email)
+      message.from(Env.get('MAIL_FROM_EMAIL'), Env.get('MAIL_FROM_NAME'))
+      message.subject('Confirm your new account')
     })
 
     yield request
