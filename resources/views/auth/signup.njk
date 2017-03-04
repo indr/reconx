@@ -18,6 +18,16 @@
     {{ form.text('email', null, { class: 'form-control'}) }}
   </fieldset>
 
+  <fieldset class="form-group">
+    {{ form.label('password', 'Password:') }}
+    {{ form.password('password', null, { class: 'form-control'}) }}
+  </fieldset>
+
+  <fieldset class="form-group">
+    {{ form.label('confirmation', 'Confirmation:') }}
+    {{ form.password('confirmation', null, {class: 'form-control'}) }}
+  </fieldset>
+
   <div class="form-actions">
     {{ form.submit('Submit', 'submit', { class: 'btn btn-primary' }) }}
   </div>

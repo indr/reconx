@@ -47,11 +47,7 @@ class AuthController {
       message.subject('Reset password')
     })
 
-    yield request
-      .with({ success: 'Email with instructions has been sent.' })
-      .flash()
-
-    response.redirect('/login')
+    yield response.sendView('auth/forgot-done', { success: 'Email with instructions has been sent.' })
   }
 
   * login (request, response) {
@@ -110,11 +106,13 @@ class AuthController {
   }
 
   * signup (request, response) {
-    const data = request.only('username', 'email')
+    const data = request.only('username', 'email', 'password', 'confirmation')
 
     const rules = {
       username: [ 'required', 'min:2', 'regex:^[a-za-z0-9\-_]+$', 'unique:users' ],
-      email: 'required|email|unique:users'
+      email: 'required|email|unique:users',
+      password: 'required|min:8',
+      confirmation: 'required_if:password|same:password'
     }
 
     const validation = yield Validator.validate(data, rules)
@@ -129,7 +127,6 @@ class AuthController {
       return
     }
 
-    data.password = AuthController.makePassword()
     const user = yield User.create({
       id: uuid.v4(),
       username: data.username,
@@ -149,11 +146,7 @@ class AuthController {
       message.subject('Confirm your new account')
     })
 
-    yield request
-      .with({ success: 'Successfully signed up. Email with instructions has been sent. Password: ' + data.password })
-      .flash()
-
-    response.redirect('/login')
+    yield response.sendView('auth/signup-done', { success: 'Successfully signed up. Email with instructions has been sent.' })
   }
 
   static makePassword () {
