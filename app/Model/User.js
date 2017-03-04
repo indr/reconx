@@ -26,6 +26,10 @@ class User extends Lucid {
     return this.hasMany('App/Model/Token')
   }
 
+  emailTokens () {
+    return this.hasMany('App/Model/EmailToken')
+  }
+
   getFullName () {
     return this.name ? this.name : this.username;
   }

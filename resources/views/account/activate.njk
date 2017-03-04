@@ -1,0 +1,18 @@
+{% extends 'master' %}
+
+{% block content %}
+  <h1>Activate Account</h1>
+
+  {% include 'flash_messages' %}
+
+  <p>Click to activate your account.</p>
+
+  {{ form.open({action: 'AccountController.activate', params: { token: token } }) }}
+  {{ csrfField }}
+
+  <div class="form-actions">
+    {{ form.submit('Activate', 'submit', { class: 'btn btn-primary'}) }}
+    <a href="/">Cancel</a>
+  </div>
+  {{ form.close() }}
+{% endblock %}

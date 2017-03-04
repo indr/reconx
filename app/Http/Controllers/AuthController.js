@@ -35,9 +35,11 @@ class AuthController {
       return
     }
 
+    const emailToken = yield user.emailTokens().create({ email: user.email })
+
     const model = {
       base_url: Env.get('BASE_URL'),
-      email_token: 'emailToken'
+      email_token: emailToken.token
     }
     yield Mail.send([ null, 'emails.reset-password' ], model, (message) => {
       message.to(user.email)
@@ -72,25 +74,24 @@ class AuthController {
       return
     }
 
-    let login = null;
+    let user
     try {
-      login = yield request.auth.attempt(data.identifier, data.password)
-    } catch (ex) {
-      if (ex.name == 'PasswordMisMatchException') {
-        login = null
-      } else if (ex.name == 'UserNotFoundException') {
-        login = null
-      } else {
-        throw ex
-      }
+      user = yield request.auth.validate(data.identifier, data.password, true)
+    } catch (UserNotFoundException) {
+      yield request.withOnly('identifier').andWith({ error: 'Invalid username or password.' }).flash()
+      response.redirect('back')
+      return
     }
 
-    if (!login) {
-      yield request
-        .withOnly('identifier')
-        .andWith({ error: 'Invalid username or password' })
-        .flash()
+    if (!user.confirmed) {
+      yield request.withOnly('identifier').andWith({ error: 'Account has not been confirmed.' }).flash()
+      response.redirect('back')
+      return
+    }
 
+    let login = yield request.auth.login(user)
+    if (!login) {
+      yield request.withOnly('identifier').andWith({ error: 'Invalid username or password.' }).flash()
       response.redirect('back')
       return
     }
@@ -136,9 +137,11 @@ class AuthController {
       password: data.password,
     })
 
+    const emailToken = yield user.emailTokens().create({ email: user.email })
+
     const model = {
       base_url: Env.get('BASE_URL'),
-      email_token: 'emailToken'
+      email_token: emailToken.token
     }
     yield Mail.send([ null, 'emails.account-activation' ], model, (message) => {
       message.to(user.email)

@@ -5,7 +5,37 @@ const Hash = use('Hash')
 const Mail = use('Mail')
 const Validator = use('Validator')
 
+const EmailToken = use('App/Model/EmailToken')
+const Exceptions = use('App/Exceptions')
+
 class AccountController {
+
+  * activate (request, response) {
+
+    const token = request.param('token')
+
+    if (request.method() == 'POST') {
+
+      const emailToken = (yield EmailToken.query().where('token', token).fetch()).first()
+      if (!emailToken) {
+        throw new Exceptions.ModelNotFoundException('token-not-found')
+      }
+
+      const user = yield emailToken.user().fetch()
+      if (emailToken.confirm()) {
+        user.confirmed = true
+
+        yield user.save()
+        yield emailToken.save()
+
+        yield request.with({ success: 'Account successfully activated.' }).flash();
+        response.redirect('/login')
+        return
+      }
+    }
+
+    yield response.sendView('account/activate', { token })
+  }
 
   * edit (request, response) {
     yield response.sendView('account/edit')

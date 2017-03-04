@@ -27,11 +27,16 @@ Route.post('/forgot', 'AuthController.forgot')
 Route.on('/login').render('auth/login')
 Route.post('/login', 'AuthController.login')
 Route.get('/logout', 'AuthController.logout')
+Route.get('/password-reset/:token', 'AuthController.resetPassword')
 Route.on('/signup').render('auth/signup')
 Route.post('/signup', 'AuthController.signup')
 
 // Account
-Route.group('account-routes', () => {
+Route.group('account-anon-routes', () => {
+  Route.post('/account/activate/:token', 'AccountController.activate')
+  Route.get('/account/activate/:token', 'AccountController.activate')
+})
+Route.group('account-auth-routes', () => {
   Route.get('/account/edit', 'AccountController.edit')
   Route.post('/account/edit', 'AccountController.update')
   Route.get('/account/delete', 'AccountController.showDelete')

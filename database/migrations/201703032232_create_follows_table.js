@@ -8,8 +8,8 @@ class FollowsTableSchema extends Schema {
     this.create('follows', table => {
       table.uuid('id').primary().index()
       table.timestamps()
-      table.uuid('follower_user_id').references('id').inTable('users')
-      table.uuid('followed_user_id').references('id').inTable('users')
+      table.uuid('follower_user_id').references('id').inTable('users').onDelete('CASCADE')
+      table.uuid('followed_user_id').references('id').inTable('users').onDelete('CASCADE')
     })
   }
 
