@@ -45,7 +45,7 @@ class AccountController {
 
     const rules = {}
     if (user.username != data.username) {
-      rules.username = [ 'required', 'min:2', 'regex:^[a-za-z0-9\-_]+$', 'unique:users' ]
+      rules.username = [ 'required', 'min:2', 'regex:^[a-zA-Z0-9\._]+$', 'unique:users' ]
     }
 
     const validation = yield Validator.validate(data, rules)

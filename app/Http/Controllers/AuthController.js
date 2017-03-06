@@ -150,7 +150,7 @@ class AuthController {
     const data = request.only('username', 'email', 'password', 'confirmation')
 
     const rules = {
-      username: [ 'required', 'min:2', 'regex:^[a-za-z0-9\-_]+$', 'unique:users' ],
+      username: [ 'required', 'min:2', 'regex:^[a-zA-Z0-9\._]+$', 'unique:users' ],
       email: 'required|email|unique:users',
       password: 'required|min:8',
       confirmation: 'required_if:password|same:password'
