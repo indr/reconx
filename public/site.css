@@ -20,6 +20,10 @@
   }
 }
 
+.markdown {
+  word-break: break-all;
+}
+
 .footer {
   margin-top: 2rem;
   border-top: solid black 1px;

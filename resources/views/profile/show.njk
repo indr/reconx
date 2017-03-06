@@ -52,12 +52,14 @@
   {% endif %}
 
   {% block profile %}
-    {% markdown %}
-    {{ profile.longDescription }}
-    {% endmarkdown %}
+    <div class="markdown">
+      {% markdown %}
+      {{ profile.longDescription }}
+      {% endmarkdown %}
+    </div>
 
     {% if canEdit %}
-      <p> <a href="{{ profile.url }}/edit">Edit</a> </p>
+      <p><a href="{{ profile.url }}/edit">Edit</a></p>
     {% endif %}
   {% endblock %}
 
